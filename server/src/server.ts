@@ -1,14 +1,14 @@
+import cors from '@fastify/cors'
 import fastify from "fastify";
-import {PrismaClient} from '@prisma/client'
+import { memoriesRoutes } from "./routes/memories";
+
 const app = fastify()
-const prisma = new PrismaClient()
 // HTPP Method: GET(listar), POST(criar), PUT(atualizar), 
 //PATCH(atualizar algo específico dentro de um recurso), DELETE(deletar)
-
-app.get('/users', async () => {
-  const users = await prisma.user.findMany()
-  return users
+app.register(cors, {
+  origin: true, //todas as urls de front-end que podem acessar o back-end
 })
+app.register(memoriesRoutes)
 
 app.listen({
   port: 3333,
