@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./App.{js,jsx,ts,tsx}", "./app/**/*.{js,jsx,ts,tsx}"],
+  content: ['./App.tsx', './app/**/*.tsx'],
   theme: {
     extend: {
       fontFamily: {
@@ -8,6 +8,7 @@ module.exports = {
         body: 'Roboto_400Regular',
         alt: 'BaiJamjuree_700Bold',
       },
+
       colors: {
         gray: {
           50: '#eaeaea',
@@ -50,4 +51,3 @@ module.exports = {
   },
   plugins: [],
 }
-

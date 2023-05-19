@@ -1,25 +1,40 @@
 import 'dotenv/config'
+
+import fastify from 'fastify'
 import cors from '@fastify/cors'
 import jwt from '@fastify/jwt'
-import fastify from "fastify";
-import { memoriesRoutes } from "./routes/memories";
-import { authRoutes } from './routes/auth';
+import multipart from '@fastify/multipart'
+import { memoriesRoutes } from './routes/memories'
+import { authRoutes } from './routes/auth'
+import { uploadRoutes } from './routes/upload'
+import { resolve } from 'node:path'
 
 const app = fastify()
-// HTPP Method: GET(listar), POST(criar), PUT(atualizar), 
-//PATCH(atualizar algo específico dentro de um recurso), DELETE(deletar)
+
+app.register(multipart)
+
+app.register(require('@fastify/static'), {
+  root: resolve(__dirname, '../uploads'),
+  prefix: '/uploads',
+})
+
 app.register(cors, {
-  origin: true, //todas as urls de front-end que podem acessar o back-end
+  origin: true,
 })
+
 app.register(jwt, {
-  secret: 'spacetime'
+  secret: 'spacetime',
 })
+
 app.register(authRoutes)
+app.register(uploadRoutes)
 app.register(memoriesRoutes)
 
-app.listen({
-  port: 3333,
-  host: '0.0.0.0'
-}).then(() => {
-  console.log('🚀 HTTP server running on http://localhost:3333')
-})
+app
+  .listen({
+    port: 3333,
+    host: '0.0.0.0',
+  })
+  .then(() => {
+    console.log('🚀 HTTP server running on port http://localhost:3333')
+  })
